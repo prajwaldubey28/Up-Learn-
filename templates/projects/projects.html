@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Up-Learn</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/feather.css') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://kit.fontawesome.com/720d275f39.js" crossorigin="anonymous"></script>
+</head>
+<body class="color-theme-blue mont-font scroll-bar">
+    <div class="preloader"></div>
+    <div class="main-wrapper">
+        <nav class="navigation scroll-bar">
+            <div class="container pl-0 pr-0">
+                <div class="nav-content">
+                    <div class="nav-top">
+                        <a href="/"><i class="feather-slack text-success display1-size mr-3 ml-3"></i><span class="d-inline-block fredoka-font ls-3 fw-600 text-current font-xl logo-text mb-0">Up-Learn. </span> </a>
+                        <a href="#" class="close-nav d-inline-block d-lg-none"><i class="ti-close bg-grey mb-4 btn-round-sm font-xssss fw-700 text-dark ml-auto mr-2 "></i></a>
+                    </div>
+                    <div class="nav-caption fw-600 font-xssss text-grey-500"><span>Menu </span>Feeds</div>
+                    <ul class="mb-3">
+                        <li class="logo d-none d-xl-block d-lg-block"></li>
+                        <li><a href="/" class="nav-content-bttn open-font" data-tab="chats"><i class="feather-tv mr-3"></i><span>Home</span></a></li>
+                        <li><a href="/projects" class="active nav-content-bttn open-font" data-tab="favorites"><i class="feather-globe mr-3"></i><span>Projects</span></a></li>
+
+                        <li><a href="/friends" class="nav-content-bttn open-font" data-tab="friends"><i class="feather-shopping-bag mr-3"></i><span>Friends</span></a></li>
+                        <li><a href="/jobs-internships" class="nav-content-bttn open-font" data-tab="favorites"><i class="feather-play-circle mr-3"></i><span>Jobs & Internships</span></a></li>                      
+                    </ul>
+                    <div class="nav-caption fw-600 font-xssss text-grey-500"><span></span> Account</div>
+                    <ul class="mb-3">
+                        <li class="logo d-none d-xl-block d-lg-block"></li>
+                        <li><a href="/settings" class="nav-content-bttn open-font h-auto pt-2 pb-2"><i class="font-sm feather-settings mr-3 text-grey-500"></i><span>Settings</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+
+
+        
+        <div class="main-content">
+            <div class="middle-sidebar-header bg-white">
+                <button class="header-menu"></button>
+                <ul class="d-flex ml-auto right-menu-icon">
+                    <a href="/authentication/logout" class="header-btn bg-current fw-500 text-white font-xsss p-2 lh-32 w100 text-center d-inline-block rounded-xl">Logout</a>
+                </ul>
+            </div>
+            <div class="middle-sidebar-bottom">
+                <div class="middle-sidebar-left">
+                    <div class="row">
+
+                        <div class="col-xl-12 col-lg-12 col-md-12 text-center mb-3">
+                            <a href="#" class="header-btn bg-current fw-500 text-white font-xsss p-2 lh-32 w100 text-center d-inline-block rounded-xl" data-toggle="modal" data-target="#ModalAddProject">Add Project</a>
+                        </div>
+                        {% for i in data.projects %}
+                            <div class="col-xl-4 col-lg-6 col-md-6" >
+                                <div class="card mb-4 d-block w-100 shadow-xss rounded-lg p-xxl-5 p-4 border-0 text-center">
+                                    {% if i.user_id == data.my_id %}
+                                        <a href="#" class="position-absolute right-0 mr-4 top-0 mt-3" data-toggle="modal" data-target="#ModalEditProject{{ i.id }}" ><i class="fas fa-pen"></i> <a>
+                                        <a href="/project/delete/{{ i.id }}" class="position-absolute left-0 ml-4 top-0 mt-3"><i class="fas fa-trash"></i> <a>
+                                    {% endif %}
+                                    <a href="/project/{{ i.id }}"><h4 class="fw-700 font-xs mt-4">{{ i.name }}</h4></a>
+                                    <p class="fw-500 font-xssss text-grey-500 mt-3" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;">{{ i.description }}</p>
+                                    <div class="clearfix"></div>
+                                    {% for j in i.tags.split(" ") %}
+                                        <span class="font-xsssss fw-700 pl-3 pr-3 lh-32 text-uppercase rounded-lg ls-2 bg-lightblue d-inline-block text-grey-800 mb-1 mr-1">{{ j }}</span>
+                                    {% endfor %}
+                                    <div class="clearfix"></div>
+                                    <ul class="memberlist mt-2 mb-1">
+                                        {% for j in data.all_users %}
+                                            {% if j.name == i.user_name %}
+                                                <li><a href="#"><img src="{{ url_for('static', filename='Uploads/profile-picture/'+j.profile_pic) if j.profile_pic is not none else url_for('static', filename='images/user-6.png') }}" alt="user" class="w30 d-inline-block"></a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                            <li class="pl-4 w-auto"><a href="/user-profile/{{ i.user_name }}" class="fw-500  font-xssss" style="color: black;">{{ i.user_name }}</a></li>
+                                    </ul>
+                                    <a href="{{ i.link }}" target="_blank" class="p-2 mt-4 d-inline-block text-white fw-700 lh-30 rounded-lg w200 text-center font-xl ls-3 bg-current"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="middle-sidebar-right right-scroll-bar">
+                    <div class="middle-sidebar-right-content">
+                        <div class="card overflow-hidden subscribe-widget p-3 mb-3 rounded-xxl border-0">
+                            <div class="card-body p-2 d-block text-center bg-no-repeat bg-image-topcenter" style="background-image: url('/static/images/user-pattern.png');">
+                                <a href="/settings" class="position-absolute right-0 mr-4"><i class="feather-edit text-grey-500 font-xs"></i></a>
+                               
+                                <figure class="avatar ml-auto mr-auto mb-0 mt-2 w90"><img src="{{ url_for('static', filename='Uploads/profile-picture/'+data.user.profile_pic) if data.user.profile_pic is not none else url_for('static', filename='images/user-6.png') }}" alt="image" class="float-right shadow-sm rounded-circle w-100"></figure>
+                                <div class="clearfix"></div>
+                                <a href="/user-profile/{{ data.username }}"><h2 class="text-black font-xss lh-3 fw-700 mt-3 mb-1">{{ data.username }}</h2></a>
+                                <h4 class="text-grey-500 font-xssss mt-0"><span class="d-inline-block bg-success btn-round-xss m-0"></span> Available</h4>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-circle text-white btn-neutral sidebar-right">
+                    <i class="ti-angle-left"></i>  
+                </button>
+            </div>            
+        </div>
+        <div class="app-footer border-0 shadow-lg">
+            <a href="/" class="nav-content-bttn nav-center"><i class="feather-home"></i></a>`
+            <a href="follower.html" class="nav-content-bttn"><i class="feather-package"></i></a>
+            <a href="live-stream.html" class="nav-content-bttn" data-tab="chats"><i class="feather-layout"></i></a>            
+            <a href="#" class="nav-content-bttn sidebar-layer"><i class="feather-layers"></i></a>
+            <a href="/settings" class="nav-content-bttn"><img src="{{ url_for('static', filename='images/female-profile.png') }}" alt="user" class="w30 shadow-xss"></a>
+        </div>
+        <div class="app-header-search">
+            <form class="search-form">
+                <div class="form-group searchbox mb-0 border-0 p-1">
+                    <input type="text" class="form-control border-0" placeholder="Search...">
+                    <i class="input-icon">
+                        <ion-icon name="search-outline" role="img" class="md hydrated" aria-label="search outline"></ion-icon>
+                    </i>
+                    <a href="#" class="ml-1 mt-1 d-inline-block close searchbox-close">
+                        <i class="ti-close font-xs"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div> 
+
+    <div class="modal bottom fade" style="overflow-y: scroll;" id="ModalAddProject" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="ti-close text-grey-500"></i></button>
+                <div class="modal-body p-3 d-flex align-items-center bg-none">
+                    <div class="card shadow-none rounded-0 w-100 p-2 pt-3 border-0">
+                        <div class="card-body rounded-0 text-left p-3">
+                            <h2 class="fw-700 display1-size display2-md-size mb-4">Add your Project</h2>                        
+                            <form action="/projects" method="POST">   
+                                <div class="form-group icon-input mb-3">
+                                    <i class="font-sm fas fa-signature text-grey-500 pr-0"></i>
+                                    <input type="text" class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600" name="project_name" placeholder="Your Project Name">                        
+                                </div>
+                                <div class="form-group icon-input mb-3">
+                                    <i class="font-sm fas fa-info-circle text-grey-500 pr-0"></i>
+                                    <input type="text" class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600" name="project_description" placeholder="Your Project Description">   
+                                    <!-- <textarea class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600" style="line-height: 20px" name="w3review" rows="100" cols="100"></textarea>                      -->
+                                </div>
+                                <div class="form-group icon-input mb-3">
+                                    <input type="text" class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600" name="project_tags" placeholder="Your Project Tags">   
+                                    <i class="font-sm fas fa-tags text-grey-500 pr-0"></i>
+                                </div>
+                                <div class="form-group icon-input mb-1">
+                                    <input type="text" class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600" name="project_link" placeholder="Your Project GitHub Link">   
+                                    <!-- <i class="font-sm ti-lock text-grey-500 pr-0"></i> -->
+                                    <i class="font-sm  fas fa-link  text-grey-500 pr-0"></i>
+                                </div>
+                                <div class="form-check text-left mb-3">
+                                    <!-- <input type="checkbox" class="form-check-input mt-2" id="exampleCheck1">
+                                    <label class="form-check-label font-xsss text-grey-500" for="exampleCheck1">Accept Term and Conditions</label>
+                                    <a href="#" class="fw-600 font-xsss text-grey-700 mt-1 float-right">Forgot your Password?</a> -->
+                                </div>
+                                <button type="submit" id="main_btn" style="display: none;">Submit</button>
+                            </form>
+                             
+                            <div class="col-sm-12 p-0 text-left">
+                                <div class="form-group mb-1"><a href="#" onclick="submit()" class="form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ">Add Project</a></div>
+                            </div>
+                            
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for i in data.projects %}
+        <div class="modal bottom fade" style="overflow-y: scroll;" id="ModalEditProject{{ i.id }}" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content border-0">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="ti-close text-grey-500"></i></button>
+                    <div class="modal-body p-3 d-flex align-items-center bg-none">
+                        <div class="card shadow-none rounded-0 w-100 p-2 pt-3 border-0">
+                            <div class="card-body rounded-0 text-left p-3">
+                                <h2 class="fw-700 display1-size display2-md-size mb-4">Edit your Project</h2>                        
+                                <form action="/projects/edit/{{ i.id }}" method="POST">   
+                                    <div class="form-group icon-input mb-3">
+                                        <i class="font-sm fas fa-signature text-grey-500 pr-0"></i>
+                                        <input type="text" class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600" name="project_name" placeholder="Your Project Name" value="{{ i.name }}">                        
+                                    </div>
+                                    <div class="form-group icon-input mb-3">
+                                        <i class="font-sm fas fa-info-circle text-grey-500 pr-0"></i>
+                                        <input type="text" class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600"  name="project_description" placeholder="Your Project Description" value="{{ i.description }}">   
+                                        <!-- <textarea class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600" style="line-height: 20px" name="w3review" rows="100" cols="100"></textarea>                      -->
+                                    </div>
+                                    <div class="form-group icon-input mb-3">
+                                        <input type="text" class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600" name="project_tags" placeholder="Your Project Tags" value="{{ i.tags }}">   
+                                        <i class="font-sm fas fa-tags text-grey-500 pr-0"></i>
+                                    </div>
+                                    <div class="form-group icon-input mb-1">
+                                        <input type="text" class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600" name="project_link" placeholder="Your Project GitHub Link" value="{{ i.link }}">   
+                                        <i class="font-sm  fas fa-link  text-grey-500 pr-0"></i>
+                                    </div>
+                                    <div class="form-check text-left mb-3">
+                                        <!-- <input type="checkbox" class="form-check-input mt-2" id="exampleCheck1">
+                                        <label class="form-check-label font-xsss text-grey-500" for="exampleCheck1">Accept Term and Conditions</label>
+                                        <a href="#" class="fw-600 font-xsss text-grey-700 mt-1 float-right">Forgot your Password?</a> -->
+                                    </div>
+                                    <button type="submit" id="main_btn{{ i.id }}" style="display: none;">Submit</button>
+                                </form>
+                                
+                                <div class="col-sm-12 p-0 text-left">
+                                    <div class="form-group mb-1"><a href="#"  onclick="submit{{ i.id }}()"  class="form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ">Edit</a></div>
+                                </div>
+                                <script>
+                                    function submit{{ i.id }}() {
+                                        document.getElementById("main_btn{{ i.id }}").click()
+                                    }
+                                </script>
+                                
+                            </div>
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    
+    <script src="{{ url_for('static', filename='js/plugin.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script>
+        function submit() {
+            document.getElementById("main_btn").click()
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Up-Learn</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/themify-icons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/feather.css') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="color-theme-blue">
+
+    <div class="preloader"></div>
+
+    <div class="main-wrap">
+        <div class="header-wrapper pos-fixed p-2">
+            <div class="container-fluid pl-lg--5 pr-lg--5">
+                <div class="row">
+                    <div class="col-lg-9 navbar pt-0 pb-0">
+                        <a href="/"><h1 class="fredoka-font ls-3 fw-700 text-current font-xxl">Up-Learn <span class="d-block font-xsssss ls-1 text-grey-500 open-font "></span></h1></a>
+                    </div>
+                    <div class="col-lg-3 text-right d-none d-lg-block">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-5 d-none d-xl-block p-0 vh-100 bg-image-cover bg-no-repeat" style="background-image: url('{{ url_for('static', filename='images/login-bg-2.jpg') }}');"></div>
+            <div class="col-xl-7 vh-100 align-items-center d-flex bg-white rounded-lg overflow-hidden">
+                <div class="card shadow-none border-0 ml-auto mr-auto login-card">
+                    <div class="card-body rounded-0 text-left">
+                        <h2 class="fw-700 display1-size display2-md-size mb-4">Create <br>your account</h2>       
+                            {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                    <ul class=flashes>
+                                        {% for message in messages %}
+                                            <label class="form-check-label font-xsss " style="color: red; font-weight: 500;" >{{ message }}</label>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            {% endwith %}                            
+                        <form action="/authentication/register" method="POST">
+                            <div class="form-group icon-input mb-3">
+                                <i class="font-sm ti-user text-grey-500 pr-0"></i>
+                                <input type="text" name="name" required class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600" placeholder="Your Username">               
+                            </div>
+                            <div class="form-group icon-input mb-3">
+                                <i class="font-sm ti-email text-grey-500 pr-0"></i>
+                                <input type="text" name="email" required class="style2-input pl-5 form-control text-grey-900 font-xsss fw-600" placeholder="Your Email Address">                        
+                            </div>
+                            <div class="form-group icon-input mb-3">
+                                <input type="Password" required name="password" class="style2-input pl-5 form-control text-grey-900 font-xss ls-3" placeholder="Password">
+                                <i class="font-sm ti-lock text-grey-500 pr-0"></i>
+                            </div>
+                            <div class="form-group icon-input mb-1">
+                                <input type="Password" required name="confirm_password" class="style2-input pl-5 form-control text-grey-900 font-xss ls-3" placeholder="Confirm Password">
+                                <i class="font-sm ti-lock text-grey-500 pr-0"></i>
+                            </div>
+                            <div class="form-check text-left mb-3">
+                                <input type="checkbox" name="terms" class="form-check-input mt-2" id="exampleCheck1" required>
+                                <label class="form-check-label font-xsss text-grey-500" for="exampleCheck1">Accept Term and Conditions</label>
+                            </div>
+                            <button type="submit" id="main_btn" style="display: none;">Submit</button>
+                        </form>
+                         
+                        <div class="col-sm-12 p-0 text-left">
+                            <div class="form-group mb-1"><a href="#" onclick="submit()" class="form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ">Register</a></div>
+                            <h6 class="text-grey-500 font-xsss fw-500 mt-0 mb-0 lh-32">Already have account <a href="/authentication/login" class="fw-700 ml-1">Login</a></h6>
+                        </div>
+                         
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/plugin.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script>
+        function submit() {
+            document.getElementById("main_btn").click()
+        }
+    </script>
+</body>
+</html>
